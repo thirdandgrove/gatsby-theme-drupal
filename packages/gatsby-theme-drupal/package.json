@@ -1,0 +1,17 @@
+{
+  "name": "gatsby-theme-drupal",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": false,
+  "license": "MIT",
+  "devDependencies": {
+    "gatsby": "^2.13.23",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "peerDependencies": {
+    "gatsby": "^2.13.23",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}

@@ -1,8 +1,13 @@
 {
-  "name": "gatsby-theme-drupal",
+  "name": "gatsby-themes",
   "version": "1.0.0",
   "description": "theme for drupal8 headless gatsby builds",
   "main": "index.js",
   "author": "Third and Grove <thirdandgrove.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "demo",
+    "packages/*"
+  ]
 }
