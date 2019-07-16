@@ -5,6 +5,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "dotenv": "^8.0.0",
     "gatsby": "^2.13.23",
     "gatsby-theme-drupal": "*",
     "react": "^16.8.6",
@@ -12,10 +13,7 @@
   },
   "scripts": {
     "start": "gatsby develop",
-    "build": "gatsby build"
-  },
-  "devDependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "build": "gatsby build",
+    "clean": "gatsby clean"
   }
 }

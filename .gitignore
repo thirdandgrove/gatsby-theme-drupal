@@ -1,6 +1,4 @@
-.DS_Store
-node_modules
-.vscode
-.cache
 .env
+node_modules
+.cache
 public

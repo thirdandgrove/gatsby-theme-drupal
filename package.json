@@ -8,6 +8,6 @@
   "private": true,
   "workspaces": [
     "demo",
-    "packages/*"
+    "gatsby-theme-drupal"
   ]
 }
