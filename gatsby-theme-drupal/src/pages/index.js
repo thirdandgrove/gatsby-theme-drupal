@@ -21,21 +21,19 @@ export default ({ data }) => {
       <h1>Entity Types</h1>
       <ul>
         {entityTypes.map(entity => (
-          <li>{entity}</li>
+          <li key={entity}>{entity}</li>
         ))}
       </ul>
       <h1>Routes</h1>
       <ul>
         {data.allSitePage.nodes.map(node => (
-          <li>
+          <li key={node.path}>
             <Link to={node.path}>{node.path}</Link>
           </li>
         ))}
       </ul>
       <ul>
-        <li>make a query</li>
         <li>describe component shadowing</li>
-        <li>list entity types</li>
         <li>show how to route</li>
         <li>show how to query</li>
         <li>show how to template and generate dynamic pages</li>
