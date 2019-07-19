@@ -1,6 +1,6 @@
 {
   "name": "gatsby-theme-drupal",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "gatsby-config.js",
   "license": "MIT",
   "scripts": {
@@ -8,6 +8,11 @@
     "build": "gatsby build",
     "clean": "gatsby clean"
   },
+  "keywords": [
+    "gatsby",
+    "theme",
+    "drupal"
+  ],
   "devDependencies": {
     "gatsby": "^2.13.23",
     "react": "^16.8.6",
