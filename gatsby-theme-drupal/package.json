@@ -1,8 +1,12 @@
 {
   "name": "gatsby-theme-drupal",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "gatsby-config.js",
   "license": "MIT",
+  "author": "Third and Grove <thirdandgrove.com>",
+  "contributors": [
+    "Grant Glidewell <grant@thirdandgrove.com>"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:thirdandgrove/gatsby-theme-drupal.git"

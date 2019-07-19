@@ -20,7 +20,6 @@ exports.createPages = async ({ graphql, actions }) => {
           name
           drupal_internal__type
         }
-        totalCount
       }
     }
   `);
@@ -30,16 +29,16 @@ exports.createPages = async ({ graphql, actions }) => {
       const nodeName = snakeToPascal(node.drupal_internal__type);
 
       const nodes = await graphql(`{
-      allNode${nodeName} {
-        nodes {
-          id
-          title
-          path {
-            alias
+        allNode${nodeName} {
+          nodes {
+            id
+            title
+            path {
+              alias
+            }
           }
         }
-      }
-    }`);
+      }`);
 
       nodes.data[`allNode${nodeName}`].nodes.forEach(element =>
         createPage({
