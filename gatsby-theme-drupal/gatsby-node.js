@@ -1,6 +1,16 @@
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
 
+  function snakeToPascal(str) {
+    str += '';
+    str = str.split('_');
+    for (var i = 0; i < str.length; i++) {
+      str[i] =
+        str[i].slice(0, 1).toUpperCase() + str[i].slice(1, str[i].length);
+    }
+    return str.join('');
+  }
+
   const entityTemplate = require.resolve(`./src/templates/entityTemplate.js`);
 
   const entityTypes = await graphql(`
@@ -17,9 +27,7 @@ exports.createPages = async ({ graphql, actions }) => {
 
   await Promise.all(
     entityTypes.data.allNodeTypeNodeType.nodes.map(async node => {
-      const nodeName =
-        node.drupal_internal__type.charAt(0).toUpperCase() +
-        node.drupal_internal__type.slice(1);
+      const nodeName = snakeToPascal(node.drupal_internal__type);
 
       const nodes = await graphql(`{
       allNode${nodeName} {
