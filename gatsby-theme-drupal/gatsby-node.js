@@ -45,7 +45,8 @@ exports.createPages = async ({ graphql, actions }) => {
           path: element.path.alias,
           component: entityTemplate,
           context: {
-            element
+            element,
+            nodeName
           }
         })
       );
