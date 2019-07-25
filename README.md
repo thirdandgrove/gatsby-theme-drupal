@@ -1,6 +1,7 @@
 # Gatsby Theme Drupal
 
-a gatsby theme to connect you to your Drupal backend
+a gatsby theme for your drupal content
+![](https://github.com/thirdandgrove/gatsby-theme-drupal/blob/master/readme-preview.png)
 
 ## Installation
 
