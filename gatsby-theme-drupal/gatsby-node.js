@@ -24,10 +24,30 @@ exports.createPages = async ({ graphql, actions }) => {
     }
   `);
 
+  const allFieldsPerType = await graphql(`
+    {
+      __schema {
+        queryType {
+          fields {
+            name
+            type {
+              name
+              fields {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  `);
+
   await Promise.all(
     entityTypes.data.allNodeTypeNodeType.nodes.map(async node => {
       const nodeName = snakeToPascal(node.drupal_internal__type);
-
+      const nodeFields = allFieldsPerType.data.__schema.queryType.fields.find(
+        type => type.name === `node${nodeName}`
+      );
       const nodes = await graphql(`{
         allNode${nodeName} {
           nodes {
@@ -46,7 +66,8 @@ exports.createPages = async ({ graphql, actions }) => {
           component: entityTemplate,
           context: {
             element,
-            nodeName
+            nodeName,
+            nodeFields
           }
         })
       );
