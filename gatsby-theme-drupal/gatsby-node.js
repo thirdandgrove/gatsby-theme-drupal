@@ -12,6 +12,11 @@ exports.createPages = async ({ graphql, actions }) => {
   }
 
   const entityTemplate = require.resolve(`./src/templates/entityTemplate.js`);
+  const nodeTemplate = require.resolve(`./src/templates/nodeTemplate.js`);
+
+  // path.join using absolute path to site root path.
+  // resolve to see if the template exists
+  // delete require.cache[require.resolve("./module")];
 
   const entityTypes = await graphql(`
     {
@@ -48,6 +53,18 @@ exports.createPages = async ({ graphql, actions }) => {
       const nodeFields = allFieldsPerType.data.__schema.queryType.fields.find(
         type => type.name === `node${nodeName}`
       );
+
+      // create pages for entity type
+      createPage({
+        path: `${node.drupal_internal__type}`,
+        component: entityTemplate,
+        context: {
+          node,
+          nodeFields,
+          nodeName
+        }
+      });
+
       const nodes = await graphql(`{
         allNode${nodeName} {
           nodes {
@@ -60,10 +77,11 @@ exports.createPages = async ({ graphql, actions }) => {
         }
       }`);
 
+      // create pages for individual entities
       nodes.data[`allNode${nodeName}`].nodes.forEach(element =>
         createPage({
           path: element.path.alias,
-          component: entityTemplate,
+          component: nodeTemplate,
           context: {
             element,
             nodeName,

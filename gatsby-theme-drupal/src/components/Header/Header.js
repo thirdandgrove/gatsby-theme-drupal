@@ -11,7 +11,13 @@ export default ({ title }) => (
     }}>
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <h1>{title || 'Gatsby Theme Drupal'}</h1>
-      {title && <Link to="/">🏠</Link>}
+      {title && (
+        <Link to="/">
+          <span role="img" aria-label="home">
+            🏠
+          </span>
+        </Link>
+      )}
     </div>
   </header>
 );
