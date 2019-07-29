@@ -1,19 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 import Layout from '../components/Layout';
-import Prism from '../prism/prism';
-import '../prism/prism.css';
+import Code from '../prism/Code';
+import useInterval from '../hooks/useInterval';
 
 export default ({ pageContext: { node, nodeFields, nodeName } }) => {
-  useEffect(() => Prism.highlightAll(), []);
-
-  // poll for url
-  // if different update state
-
   const [query, updateQuery] = useState(
     `%7B%0A%20%20allNode${nodeName}%20%7B%0A%20%20%20%20nodes%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A`
   );
-  const code = `
+
+  const code = (q, entity) => `
+  // Component in src/templates/${entity}Template.js
   import React from 'react';
   import { query } from 'gatsby';
 
@@ -25,34 +22,60 @@ export default ({ pageContext: { node, nodeFields, nodeName } }) => {
       {JSON.stringify(node)}
     </Layout>
   );
-
-  export const query = graphql(\`${decodeURIComponent(query)}\`)
   `;
+
+  const nodeCode = (q, entity) => `
+  // Add these lines to your gatsby-node.js file
+  const ${entity} = await graphql(\`${decodeURIComponent(q)}\`)
+
+  const ${entity}Template = require.resolve(\`./src/templates/${entity}Template.js\`);
+  
+  ${entity}.data.allNode${entity}.nodes.map(node => {
+    createPage({
+      path: node.path.alias,
+      component: ${entity}Template,
+      context: {
+        node
+      }
+  })
+  `;
+
   const graphQl = useRef();
-  useEffect(() => {
-    setInterval(() => {
-      console.log(graphQl.current.contentWindow.location.search);
-    }, 3000);
-  }, []);
+
+  const queryPoll = () => {
+    const { search } = graphQl.current.contentWindow.location;
+    const newQuery = search.slice(search.indexOf('=') + 1, search.indexOf('&'));
+    if (newQuery !== query) {
+      updateQuery(newQuery);
+    }
+  };
+
+  useInterval(queryPoll, 3000);
+
   return (
     <Layout headerTitle={`Entity: ${node.drupal_internal__type}`}>
-      <h3>Fields on this entity type:</h3>
-      <ul>
-        {nodeFields.type.fields.map(field => (
-          <li key={field.name}>{field.name}</li>
-        ))}
-      </ul>
+      <p>
+        Explanation of component shadowing and using gatsby-node to generate
+        pages programmatically
+      </p>
+      <div style={{ display: 'flex' }}>
+        <Code code={code(query, nodeName)} />
+        <Code code={nodeCode(query, nodeName)} />
+        <span>
+          <h3>Fields on this entity type:</h3>
+          <ul>
+            {nodeFields.type.fields.map(field => (
+              <li key={field.name}>{field.name}</li>
+            ))}
+          </ul>
+        </span>
+      </div>
       <iframe
         ref={graphQl}
         title="graphiql"
-        onReset={e => console.log(e.target)}
-        src={`http://localhost:8000/___graphql?query=${query}&variables=&explorerIsOpen=false`}
+        src={`http://localhost:8000/___graphql?query=%7B%0A%20%20allNode${nodeName}%20%7B%0A%20%20%20%20nodes%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A&variables=&explorerIsOpen=false`}
         height="800px"
       />
-      <pre>
-        <code className="language-javascript">{code}</code>
-      </pre>
-      \
     </Layout>
   );
 };

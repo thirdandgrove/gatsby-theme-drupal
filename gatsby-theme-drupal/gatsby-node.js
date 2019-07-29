@@ -14,10 +14,6 @@ exports.createPages = async ({ graphql, actions }) => {
   const entityTemplate = require.resolve(`./src/templates/entityTemplate.js`);
   const nodeTemplate = require.resolve(`./src/templates/nodeTemplate.js`);
 
-  // path.join using absolute path to site root path.
-  // resolve to see if the template exists
-  // delete require.cache[require.resolve("./module")];
-
   const entityTypes = await graphql(`
     {
       allNodeTypeNodeType {
