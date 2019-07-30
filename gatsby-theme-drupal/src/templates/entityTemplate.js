@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 
 import Layout from '../components/Layout';
 import Code from '../prism/Code';
@@ -16,17 +16,32 @@ export default ({ pageContext: { node, nodeFields, nodeName } }) => {
 
   import Layout from '../components/Layout';
   
-  export default ({ pageContext: { node } }) => (
+  export default ({ data }) => (
     <Layout headerTitle='title'>
       <h3>Page Template</h3>
-      {JSON.stringify(node)}
+      {JSON.stringify(data)}
     </Layout>
   );
+
+  export query = graphql(\`
+  query($${entity}ID: String!)${decodeURIComponent(
+    q.replace(`allNode${entity}`, `node${entity}(id: { eq: $${entity}ID })`)
+  )}\`)
   `;
 
   const nodeCode = (q, entity) => `
   // Add these lines to your gatsby-node.js file
-  const ${entity} = await graphql(\`${decodeURIComponent(q)}\`)
+  const ${entity} = await graphql(\`{
+    allNodePage {
+      nodes {
+        id
+        path {
+          alias
+        }
+      }
+    }
+  }
+  \`)
 
   const ${entity}Template = require.resolve(\`./src/templates/${entity}Template.js\`);
   
@@ -35,7 +50,7 @@ export default ({ pageContext: { node, nodeFields, nodeName } }) => {
       path: node.path.alias,
       component: ${entity}Template,
       context: {
-        node
+        ${entity}ID: node.id
       }
   })
   `;
