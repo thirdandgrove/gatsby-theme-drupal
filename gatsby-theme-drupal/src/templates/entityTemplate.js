@@ -1,15 +1,15 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 
 import Layout from '../components/Layout';
-import Code from '../prism/Code';
-import useInterval from '../hooks/useInterval';
+import Code from '../components/Code';
+import LiveGraphql from '../components/LiveGraphql';
 
 export default ({ pageContext: { node, nodeFields, nodeName } }) => {
   const [query, updateQuery] = useState(
     `%7B%0A%20%20allNode${nodeName}%20%7B%0A%20%20%20%20nodes%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A`
   );
 
-  const code = (q, entity) => `
+  const templateCode = (q, entity) => `
   // Component in src/templates/${entity}Template.js
   import React from 'react';
   import { query } from 'gatsby';
@@ -55,18 +55,6 @@ export default ({ pageContext: { node, nodeFields, nodeName } }) => {
   })
   `;
 
-  const graphQl = useRef();
-
-  const queryPoll = () => {
-    const { search } = graphQl.current.contentWindow.location;
-    const newQuery = search.slice(search.indexOf('=') + 1, search.indexOf('&'));
-    if (newQuery !== query) {
-      updateQuery(newQuery);
-    }
-  };
-
-  useInterval(queryPoll, 3000);
-
   return (
     <Layout headerTitle={`Entity: ${node.drupal_internal__type}`}>
       <p>
@@ -74,7 +62,7 @@ export default ({ pageContext: { node, nodeFields, nodeName } }) => {
         pages programmatically
       </p>
       <div style={{ display: 'flex' }}>
-        <Code code={code(query, nodeName)} />
+        <Code code={templateCode(query, nodeName)} />
         <Code code={nodeCode(query, nodeName)} />
         <span>
           <h3>Fields on this entity type:</h3>
@@ -85,13 +73,12 @@ export default ({ pageContext: { node, nodeFields, nodeName } }) => {
           </ul>
         </span>
       </div>
-      <iframe
-        ref={graphQl}
-        title="graphiql"
+      <LiveGraphql
+        query={query}
+        updateQuery={updateQuery}
         src={`http://localhost:${
           window.location.port
         }/___graphql?query=%7B%0A%20%20allNode${nodeName}%20%7B%0A%20%20%20%20nodes%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A&variables=&explorerIsOpen=false`}
-        height="800px"
       />
     </Layout>
   );
