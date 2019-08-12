@@ -1,6 +1,6 @@
 {
   "name": "gatsby-theme-drupal",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "gatsby-config.js",
   "license": "MIT",
   "author": "Third and Grove <thirdandgrove.com>",
@@ -19,7 +19,9 @@
   "keywords": [
     "gatsby",
     "theme",
-    "drupal"
+    "drupal",
+    "gatsby-theme",
+    "gatsby-plugin"
   ],
   "devDependencies": {
     "gatsby": "^2.13.23",
@@ -33,6 +35,8 @@
   },
   "dependencies": {
     "gatsby-plugin-page-creator": "^2.1.5",
-    "gatsby-source-drupal": "^3.2.7"
+    "gatsby-plugin-sharp": "^2.2.11",
+    "gatsby-source-drupal": "^3.2.7",
+    "gatsby-transformer-sharp": "^2.2.6"
   }
 }

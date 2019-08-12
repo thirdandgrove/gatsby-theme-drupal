@@ -35,6 +35,8 @@ If you use JSON API extras there is a chance the node names have diverged from t
 
 Another convention that this theme relies on is the provision of paths from Drupal. when querying entities that data is required. if it is not exposed or does not exist the result will be ...suboptimal(it will break).
 
+This assumes that path-auto is turned on.
+
 ## todo
 
 - [ ] Establish component naming convention for shadowing

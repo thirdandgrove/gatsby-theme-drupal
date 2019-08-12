@@ -88,7 +88,9 @@ export default ({ pageContext: { node, nodeFields, nodeName } }) => {
       <iframe
         ref={graphQl}
         title="graphiql"
-        src={`http://localhost:8000/___graphql?query=%7B%0A%20%20allNode${nodeName}%20%7B%0A%20%20%20%20nodes%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A&variables=&explorerIsOpen=false`}
+        src={`http://localhost:${
+          window.location.port
+        }/___graphql?query=%7B%0A%20%20allNode${nodeName}%20%7B%0A%20%20%20%20nodes%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A&variables=&explorerIsOpen=false`}
         height="800px"
       />
     </Layout>
