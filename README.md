@@ -5,7 +5,7 @@ a gatsby theme for your Drupal content
 
 ## Installation
 
-`yarn add gatsby-source-drupal`
+`yarn add gatsby-theme-drupal`
 
 ## Setup
 
