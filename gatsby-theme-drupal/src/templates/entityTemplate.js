@@ -12,7 +12,7 @@ export default ({ pageContext: { node, nodeFields, nodeName } }) => {
   const templateCode = (q, entity) => `
   // Component in src/templates/${entity}Template.js
   import React from 'react';
-  import { query } from 'gatsby';
+  import { graphql } from 'gatsby';
 
   import Layout from '../components/Layout';
   
@@ -76,9 +76,7 @@ export default ({ pageContext: { node, nodeFields, nodeName } }) => {
       <LiveGraphql
         query={query}
         updateQuery={updateQuery}
-        src={`http://localhost:${
-          window.location.port
-        }/___graphql?query=%7B%0A%20%20allNode${nodeName}%20%7B%0A%20%20%20%20nodes%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A&variables=&explorerIsOpen=false`}
+        src={`${window.location.origin}/___graphql?query=%7B%0A%20%20allNode${nodeName}%20%7B%0A%20%20%20%20nodes%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A&variables=&explorerIsOpen=false`}
       />
     </Layout>
   );
