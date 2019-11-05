@@ -15,24 +15,24 @@ export default ({ pageContext: { node, nodeFields, nodeName } }) => {
   import { graphql } from 'gatsby';
 
   import Layout from '../components/Layout';
-  
+
   export default ({ data }) => (
     <Layout headerTitle='title'>
-      <h3>Page Template</h3>
+      <h3>${entity} Template</h3>
       {JSON.stringify(data)}
     </Layout>
   );
 
-  export query = graphql(\`
+  export query = graphql\`
   query($${entity}ID: String!)${decodeURIComponent(
     q.replace(`allNode${entity}`, `node${entity}(id: { eq: $${entity}ID })`)
-  )}\`)
+  )}\`
   `;
 
   const nodeCode = (q, entity) => `
   // Add these lines to your gatsby-node.js file
   const ${entity} = await graphql(\`{
-    allNodePage {
+    allNode${entity} {
       nodes {
         id
         path {
@@ -44,7 +44,7 @@ export default ({ pageContext: { node, nodeFields, nodeName } }) => {
   \`)
 
   const ${entity}Template = require.resolve(\`./src/templates/${entity}Template.js\`);
-  
+
   ${entity}.data.allNode${entity}.nodes.map(node => {
     createPage({
       path: node.path.alias,

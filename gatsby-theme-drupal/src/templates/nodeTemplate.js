@@ -16,7 +16,7 @@ export default ({ pageContext: { element, nodeName, nodeFields } }) => (
     </p>
     <iframe
       title="graphiql"
-      src={`http://localhost:8000/___graphql?query=%7B%0A%20%20allNode${nodeName}(filter%3A%20%7Bid%3A%20%7Beq%3A%20%22${
+      src={`${window.location.origin}/___graphql?query=%7B%0A%20%20allNode${nodeName}(filter%3A%20%7Bid%3A%20%7Beq%3A%20%22${
         element.id
       }%22%7D%7D)%20%7B%0A%20%20%20%20edges%20%7B%0A%20%20%20%20%20%20node%20%7B%0A%20%20%20%20%20%20%20%20id%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A&variables=&operationName=undefined`}
       height="800px"
