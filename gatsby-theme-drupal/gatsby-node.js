@@ -74,7 +74,7 @@ exports.createPages = async ({ graphql, actions }) => {
       }`);
 
       // create pages for individual entities
-      if (nodes.data[`allNode${nodeName}`]) {
+      if (nodes.data && nodes.data.length > 0) {
         nodes.data[`allNode${nodeName}`].nodes.forEach(element =>
           createPage({
             path: element.path.alias,
