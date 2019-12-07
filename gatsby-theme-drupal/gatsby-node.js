@@ -74,17 +74,19 @@ exports.createPages = async ({ graphql, actions }) => {
       }`);
 
       // create pages for individual entities
-      nodes.data[`allNode${nodeName}`].nodes.forEach(element =>
-        createPage({
-          path: element.path.alias,
-          component: nodeTemplate,
-          context: {
-            element,
-            nodeName,
-            nodeFields
-          }
-        })
-      );
+      if (nodes.data[`allNode${nodeName}`]) {
+        nodes.data[`allNode${nodeName}`].nodes.forEach(element =>
+          createPage({
+            path: element.path.alias,
+            component: nodeTemplate,
+            context: {
+              element,
+              nodeName,
+              nodeFields
+            }
+          })
+        );
+      }
     })
   );
 };
