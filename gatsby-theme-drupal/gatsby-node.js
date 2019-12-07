@@ -49,7 +49,7 @@ exports.createPages = async ({ graphql, actions }) => {
       const nodeFields = allFieldsPerType.data.__schema.queryType.fields.find(
         type => type.name === `node${nodeName}`
       );
-      if (nodeFields && nodeFields.length > 0) {
+      if (nodeFields) {
         // create pages for entity type
         createPage({
           path: `${node.drupal_internal__type}`,
