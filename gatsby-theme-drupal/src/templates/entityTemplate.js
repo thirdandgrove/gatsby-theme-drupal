@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import Layout from '../components/Layout';
-import Code from '../components/Code';
-import LiveGraphql from '../components/LiveGraphql';
+import Layout from "../components/Layout";
+import Code from "../components/Code";
+import LiveGraphql from "../components/LiveGraphql";
 
 export default ({ pageContext: { node, nodeFields, nodeName } }) => {
   const [query, updateQuery] = useState(
@@ -26,7 +26,9 @@ export default ({ pageContext: { node, nodeFields, nodeName } }) => {
   export query = graphql\`
   query($${entity}ID: String!)${decodeURIComponent(
     q.replace(`allNode${entity}`, `node${entity}(id: { eq: $${entity}ID })`)
-  )}\`
+  )
+    .replace(`\n    nodes {`, ``)
+    .slice(0, -2)}\`)
   `;
 
   const nodeCode = (q, entity) => `
@@ -61,7 +63,7 @@ export default ({ pageContext: { node, nodeFields, nodeName } }) => {
         Explanation of component shadowing and using gatsby-node to generate
         pages programmatically
       </p>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: "flex" }}>
         <Code code={templateCode(query, nodeName)} />
         <Code code={nodeCode(query, nodeName)} />
         <span>
