@@ -49,42 +49,42 @@ exports.createPages = async ({ graphql, actions }) => {
       const nodeFields = allFieldsPerType.data.__schema.queryType.fields.find(
         type => type.name === `node${nodeName}`
       );
+      if (nodeFields) {
+        // create pages for entity type
+        createPage({
+          path: `${node.drupal_internal__type}`,
+          component: entityTemplate,
+          context: {
+            node,
+            nodeFields,
+            nodeName
+          }
+        });
 
-      // create pages for entity type
-      createPage({
-        path: `${node.drupal_internal__type}`,
-        component: entityTemplate,
-        context: {
-          node,
-          nodeFields,
-          nodeName
-        }
-      });
-
-      const nodes = await graphql(`{
-        allNode${nodeName} {
-          nodes {
-            id
-            title
-            path {
-              alias
+        const nodes = await graphql(`{
+          allNode${nodeName} {
+            nodes {
+              id
+              title
+              path {
+                alias
+              }
             }
           }
-        }
-      }`);
-
-      // create pages for individual entities
-      nodes.data[`allNode${nodeName}`].nodes.forEach(element =>
-        createPage({
-          path: element.path.alias,
-          component: nodeTemplate,
-          context: {
-            element,
-            nodeName,
-            nodeFields
-          }
-        })
-      );
+        }`);
+        // create pages for individual entities
+        nodes.data[`allNode${nodeName}`].nodes.forEach(element =>
+          createPage({
+            path: element.path.alias,
+            component: nodeTemplate,
+            context: {
+              element,
+              nodeName,
+              nodeFields
+            }
+          })
+        );
+      }
     })
   );
 };
